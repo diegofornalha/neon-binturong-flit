@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Corrigir Super Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        button {
+            background: #0070f3;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #0051cc;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #2a2a2a;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Corrigir Super Admin</h1>
+    <p>Clique no botão abaixo para remover o organization_id do super admin:</p>
+    <button onclick="fixSuperAdmin()">Corrigir Super Admin</button>
+    <div id="result"></div>
+
+    <script>
+        async function fixSuperAdmin() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = 'Processando...';
+
+            try {
+                const response = await fetch('/api/debug/fix-super-admin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: 'sostenesmeister@gmail.com'
+                    })
+                });
+
+                const data = await response.json();
+                resultDiv.textContent = JSON.stringify(data, null, 2);
+
+                if (data.success) {
+                    setTimeout(() => {
+                        alert('Super admin corrigido! Fazendo logout para aplicar as mudanças...');
+                        window.location.href = '/';
+                    }, 2000);
+                }
+            } catch (error) {
+                resultDiv.textContent = 'Erro: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

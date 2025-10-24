@@ -1,0 +1,1 @@
+export { AdAccountManagement } from "@/components/settings/ad-account-management/index"
